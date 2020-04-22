@@ -1,2 +1,6 @@
 <h1>Socking</h1>
 <p>Hello! This is my first rails app!</p>
+
+<%StockQuote::Stock.new(api_key: "pk_42833966e96f49a9bb23e12ed149e6aa")%>
+<% stock = StockQuote::Stock.quote("fb")%>
+<%= stock.latest_price%>
