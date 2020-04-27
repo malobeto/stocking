@@ -19,6 +19,7 @@ gem 'bootstrap', '~> 4.4', '>= 4.4.1'
 gem 'jquery-rails'
 gem 'sassc', '~> 2.1.0'
 gem 'stock_quote', '~> 3.0'
+gem 'devise', '~> 4.6', '>= 4.6.2'
 
 
 group :development, :test do
