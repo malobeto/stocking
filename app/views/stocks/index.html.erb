@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th>Comapny Name</th>
       <th>Ticker</th>
       <th>Current Price</th>
       <th colspan="3"></th>
@@ -17,17 +18,25 @@
           <% @nothing = "N/A" %>
 
         <% elsif stock.ticker %>
-          <% @ticker = StockQuote::Stock.quote(stock.ticker) %>
-
-      <% if !stock.ticker %>
-        <% @error = "N/A" %>
-
+          <% begin %>
+            <% @ticker = StockQuote::Stock.quote(stock.ticker) %>
+            <% @symbol = @ticker.symbol %>
+            <% @company_name = @ticker.company_name %>
+            <% @price = number_with_precision(@ticker.latest_price, :precision => 2, :delimiter => ',') %>
+          <% rescue RuntimeError => @errorMSG %>
+            <% @error = "That company symbol does not exist" %>
+        <% if !stock.ticker %>
+          <% @symbol = "N/A" %>
+          <% @price = "N/A" %>
+          <% @company_name = "N/A" %>
+        <% end %>
         <% end %>
       <% end %>
 
       <tr>
-        <td><%= @ticker.symbol %></td>
-        <td><%= @ticker.latest_price %></td>
+        <td><%= @company_name %></td>
+        <td><%= @symbol %></td>
+        <td>$<%= @price %></td>
         <td><%= link_to 'Show', stock %></td>
         <td><%= link_to 'Edit', edit_stock_path(stock) %></td>
         <td><%= link_to 'Destroy', stock, method: :delete, data: { confirm: 'Are you sure?' } %></td>
