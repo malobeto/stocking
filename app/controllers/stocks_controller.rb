@@ -6,6 +6,7 @@ class StocksController < ApplicationController
   # GET /stocks
   # GET /stocks.json
   def index
+    @api = StockQuote::Stock.new(api_key: "pk_42833966e96f49a9bb23e12ed149e6aa")
     @stocks = Stock.all
   end
 

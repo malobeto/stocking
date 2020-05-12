@@ -1,12 +1,13 @@
 <h1>Stocks</h1>
 
-<table>
-  <thead>
+<table class="table table-striped table-bordered table-hover">
+  <thead class="thead-dark">
     <tr>
       <th>Comapny Name</th>
       <th>Ticker</th>
       <th>Current Price</th>
-      <th colspan="3"></th>
+      <th>Market Cap</th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -22,24 +23,26 @@
             <% @ticker = StockQuote::Stock.quote(stock.ticker) %>
             <% @symbol = @ticker.symbol %>
             <% @company_name = @ticker.company_name %>
-            <% @price = number_with_precision(@ticker.latest_price, :precision => 2, :delimiter => ',') %>
+            <% @price = number_with_precision(@ticker.latest_price, :precision => 2, :delimiter => ',') %>\
+            <% @market_cap = number_with_precision(@ticker.market_cap, :precision => 2, :delimiter => ',') %>
           <% rescue RuntimeError => @errorMSG %>
             <% @error = "That company symbol does not exist" %>
         <% if !stock.ticker %>
           <% @symbol = "N/A" %>
           <% @price = "N/A" %>
           <% @company_name = "N/A" %>
+          <% @market_cap = "N/A" %>
         <% end %>
         <% end %>
       <% end %>
 
       <tr>
-        <td><%= @company_name %></td>
+        <td><%= link_to @company_name, stock %></td>
         <td><%= @symbol %></td>
         <td>$<%= @price %></td>
-        <td><%= link_to 'Show', stock %></td>
-        <td><%= link_to 'Edit', edit_stock_path(stock) %></td>
-        <td><%= link_to 'Destroy', stock, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>$<%= @market_cap %></td>
+        <td><center><%= link_to 'Edit', edit_stock_path(stock)%></center></td>
+        <td><center><%= link_to 'Destroy', stock, method: :delete, data: { confirm: 'Are you sure?' } %></center></td>
       </tr>
     <% end %>
     <% end %>
